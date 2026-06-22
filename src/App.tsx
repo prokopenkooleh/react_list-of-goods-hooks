@@ -19,6 +19,7 @@ export const goodsFromServer = [
 enum SortType {
   alphabetically = 'alphabetically',
   byLength = 'byLength',
+  none = 'none',
 }
 
 function getPreparedGoods(
@@ -35,6 +36,8 @@ function getPreparedGoods(
           return a.localeCompare(b);
         case SortType.byLength:
           return a.length - b.length;
+        case SortType.none:
+          return 0;
         default:
           return 0;
       }
@@ -49,7 +52,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.none);
   const [reverse, setReverse] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reverse);
 
@@ -86,12 +89,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField !== '' || reverse) && (
+        {(sortField !== SortType.none || reverse) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.none);
               setReverse(false);
             }}
           >
