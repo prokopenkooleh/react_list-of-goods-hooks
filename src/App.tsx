@@ -24,20 +24,18 @@ enum SortType {
 
 function getPreparedGoods(
   goods: string[],
-  sortField: SortType | '',
+  sortField: SortType,
   reverse: boolean,
 ): string[] {
   const preparedGoods = [...goods];
 
-  if (sortField) {
+  if (sortField !== SortType.none) {
     preparedGoods.sort((a, b) => {
       switch (sortField) {
         case SortType.alphabetically:
           return a.localeCompare(b);
         case SortType.byLength:
           return a.length - b.length;
-        case SortType.none:
-          return 0;
         default:
           return 0;
       }
